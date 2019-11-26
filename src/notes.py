@@ -8,7 +8,7 @@ class Notes:
         self.path_to_data = path_to_data
         self.path_to_dump = path_to_dump
 
-    def update_notes(self):
+    def update(self):
         """ Get all the notes and chords from the midi files in the dataset directory """
         for file in glob.glob(self.path_to_data):
             midi = converter.parse(file)
@@ -28,3 +28,11 @@ class Notes:
                     self.notes.append(str(element.pitch))
                 elif isinstance(element, chord.Chord):
                     self.notes.append('.'.join(str(n) for n in element.normalOrder))
+    
+    def save(self):
+        with open(self.path_to_dump, 'wb') as filepath:
+            pickle.dump(self.notes, filepath)
+    
+    def load(self):
+         with open(self.path_to_dump, 'rb') as filepath:
+            self.notes = pickle.load(filepath)

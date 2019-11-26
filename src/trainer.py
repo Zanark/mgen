@@ -13,7 +13,7 @@ class Trainer:
 
     def prepare(self):
         """ Prepares for training a model """
-        self.notes.update_notes()
+        self.notes.update()
         notes = self.notes.notes
 
         self.num_pitches = len(set(notes))
