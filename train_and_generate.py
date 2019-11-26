@@ -5,7 +5,7 @@ import time
 
 # Variables
 get_nn = models.nn_01
-fname = "01-01.midi"
+fname = "01-01"
 sequence_length = 100
 generated_length = 500
 num_epochs = 100
@@ -15,8 +15,8 @@ batch_size = 32
 path_to_notes = "./generated/data/notes"
 path_to_weights = "./generated/data/weights-improvement-{epoch:02d}-{loss:.4f}-bigger.hdf5"
 path_to_data = "./dataset/*.mid"
-path_to_midi = "./generated/{fname}.midi"
-path_to_log = "./generated/{fname}.log"
+path_to_midi = "./generated/%s.mid" % fname
+path_to_log = "./generated/%s.log" % fname
 
 if __name__ == '__main__':
     before_training = time.time()
@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     # Load the weights to each node (if the prediction is being done later)
     # model.load_weights(path_to_weights)
-    prediction = Prediction(trainer.notes.notes, trainer.pitch_names, trainer.num_pitches)
+    prediction = Prediction(trainer.notes.array, trainer.pitch_names, trainer.num_pitches)
     prediction_output = prediction.generate_notes(
         model, nn_input, generated_length
     )
