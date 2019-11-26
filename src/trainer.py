@@ -14,13 +14,12 @@ class Trainer:
     def prepare(self):
         """ Prepares for training a model """
         self.notes.update()
-        notes = self.notes.notes
 
-        self.num_pitches = len(set(notes))
-        self.pitch_names = sorted(set(item for item in notes))
-        return self.prepare_io(notes, self.num_pitches)
+        self.num_pitches = len(set(self.notes.array))
+        self.pitch_names = sorted(set(item for item in self.notes.array))
+        return self.prepare_io()
     
-    def prepare_io(self, notes, num_pitches):
+    def prepare_io(self):
         """ Prepares the inputs and outputs used by the Neural Network """
         # map pitches to integers using a dictionary
         note_to_int = dict((note, number) for number, note in enumerate(self.pitch_names))
@@ -29,9 +28,9 @@ class Trainer:
         nn_output = []
 
         # prepare inputs and the corresponding outputs
-        for i in range(0, len(notes) - self.sequence_length, 1):
-            sequence_in = notes[i:i + self.sequence_length]
-            sequence_out = notes[i + self.sequence_length]
+        for i in range(0, len(self.notes.array) - self.sequence_length, 1):
+            sequence_in = self.notes.array[i:i + self.sequence_length]
+            sequence_out = self.notes.array[i + self.sequence_length]
             nn_input.append([note_to_int[char] for char in sequence_in])
             nn_output.append(note_to_int[sequence_out])
 

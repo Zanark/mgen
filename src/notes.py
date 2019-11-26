@@ -4,7 +4,7 @@ from music21 import converter, instrument, note, chord
 
 class Notes:
     def __init__(self, path_to_data, path_to_dump):
-        self.notes = []
+        self.array = []
         self.path_to_data = path_to_data
         self.path_to_dump = path_to_dump
 
@@ -25,14 +25,14 @@ class Notes:
 
             for element in notes_to_parse:
                 if isinstance(element, note.Note):
-                    self.notes.append(str(element.pitch))
+                    self.array.append(str(element.pitch))
                 elif isinstance(element, chord.Chord):
-                    self.notes.append('.'.join(str(n) for n in element.normalOrder))
+                    self.array.append('.'.join(str(n) for n in element.normalOrder))
     
     def save(self):
         with open(self.path_to_dump, 'wb') as filepath:
-            pickle.dump(self.notes, filepath)
+            pickle.dump(self.array, filepath)
     
     def load(self):
          with open(self.path_to_dump, 'rb') as filepath:
-            self.notes = pickle.load(filepath)
+            self.array = pickle.load(filepath)
