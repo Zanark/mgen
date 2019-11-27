@@ -23,3 +23,38 @@ def nn_02(network_input, num_pitches):
     model.add(Activation('softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
     return model
+
+def nn_03(network_input, num_pitches):
+    """ 2 Stacked LSTMs """
+    model = Sequential()
+    model.add(LSTM(256, input_shape=(network_input.shape[1], network_input.shape[2]), return_sequences=True))
+    model.add(LSTM(256))
+    model.add(Dense(num_pitches))
+    model.add(Activation('softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+    return model
+
+def nn_04(network_input, num_pitches):
+    """ 2 Stacked LSTMs with dropout in between """
+    model = Sequential()
+    model.add(LSTM(256, input_shape=(network_input.shape[1], network_input.shape[2]), return_sequences=True))
+    model.add(Dropout(0.3))
+    model.add(LSTM(256))
+    model.add(Dense(num_pitches))
+    model.add(Activation('softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+    return model
+
+def nn_05(network_input, num_pitches):
+    """ 3 Stacked LSTMs with dropouts """
+    model = Sequential()
+    model.add(LSTM(256, input_shape=(network_input.shape[1], network_input.shape[2]), return_sequences=True))
+    model.add(Dropout(0.3))
+    model.add(LSTM(256, return_sequences=True))
+    model.add(Dropout(0.4))
+    model.add(LSTM(256))
+    model.add(Dropout(0.2))
+    model.add(Dense(num_pitches))
+    model.add(Activation('softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+    return model
